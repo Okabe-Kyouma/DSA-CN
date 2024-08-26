@@ -1,0 +1,265 @@
+//BT-1
+
+// Online Java Compiler
+// Use this editor to write, compile and run your Java code online
+import java.util.*;
+class HelloWorld {
+    
+    static Scanner input;
+    
+    public static void main(String[] args) {
+    
+        Node t= levelWiseInput();
+        
+        levelWisePrint(t);
+        
+        
+    }
+    
+    public static void nodesWithoutSiblings(Node root){
+        
+        if(root==null)return;
+        
+        if(root.left==null && root.right!=null)System.out.println(root.right.data);
+        
+        if(root.right==null && root.left!=null)System.out.println(root.left.data);
+        
+        nodesWithoutSiblings(root.left);
+        nodesWithoutSiblings(root.right);
+        
+    }
+    
+    public static Node levelWiseInput(){
+        
+        int n = input.nextInt();
+        
+        if(n==-1)return null;
+        
+        Node node = new Node(n);
+        
+        Queue<Node> queue = new LinkedList<>();
+        
+        queue.offer(node);
+        
+        while(!queue.isEmpty()){
+            
+            Node temp = queue.poll();
+            
+            int left = input.nextInt();
+            
+            if(left!=-1){
+            temp.left = new Node(left);
+              queue.offer(temp.left);
+            }
+            
+            
+            int right = input.nextInt();
+            
+            if(right!=-1){
+            temp.right = new Node(right);
+              queue.offer(temp.right);
+            }
+            
+        }
+        
+        return node;
+        
+        
+    }
+    
+    public static int greaterThanX(Node root,int x){
+        
+        if(root==null)
+        return 0;
+        
+        boolean bool = false;
+        
+        if(root.data>x){
+            bool = true;
+        }
+        
+        return (bool ? 1 : 0) + greaterThanX(root.right,x) + greaterThanX(root.left,x);
+
+        
+    }
+    
+    public static Node buildTree(int n){
+        
+        if(n==-1)
+        return null;
+        
+        Node node = new Node(n);
+        
+         System.out.println("Enter " + node.data + "'s left child data:");
+        
+            node.left = buildTree(input.nextInt());
+            
+         System.out.println("Enter " + node.data + "'s right child data:");
+            
+            node.right = buildTree(input.nextInt());
+        
+        return node;
+        
+    }
+    
+    public static void NodesAtDepthK(Node root,int k){
+        
+        if(root==null)return;
+        
+        if(k==0){System.out.println(root.data + " "); return;}
+        
+        k--;
+        
+        NodesAtDepthK(root.left,k);
+        NodesAtDepthK(root.right,k);
+        
+    }
+    
+    public static void printTree(Node root){
+        
+        if(root==null)
+        return;
+        
+         System.out.print(root.data + ": ");
+         
+         if(root.left!=null)
+         System.out.print("L" + root.left.data);
+         
+         if(root.right!=null){
+             System.out.print(" R" + root.right.data);
+         }
+         
+         System.out.println();
+       
+        printTree(root.left);
+        printTree(root.right);
+        
+    }
+    
+    public static int noOfNodes(Node root){
+        
+        
+        if(root==null)
+        return 0;
+        
+        return 1 + noOfNodes(root.right) + noOfNodes(root.left);
+        
+        
+    }
+    
+    public static void levelWisePrint(Node root){
+        
+        if(root==null)
+         return;
+         
+         Queue<Node> queue = new LinkedList<>();
+         
+         queue.offer(root);
+         
+         while(!queue.isEmpty()){
+             
+             Node n = queue.peek();
+             
+             if(n.left!=null)queue.offer(n.left);
+             if(n.right!=null) queue.offer(n.right);
+             
+             System.out.println(queue.poll().data);
+             
+             
+         }
+        
+    }
+    
+    public static int heightOfTree(Node root){
+        
+        if(root==null)return 0;
+        
+        
+        int n1 = heightOfTree(root.left);
+        
+        int n2 =  heightOfTree(root.right);
+        
+        return 1 + Math.max(n1,n2);
+        
+    }
+    
+    public static int leafNodes(Node root){
+        
+        if(root==null)return 0;
+        
+        if(root.left==null && root.right==null){
+            return 1;
+        }
+        
+        return leafNodes(root.left) + leafNodes(root.right);
+        
+    }
+    
+    public static int largestNode(Node root){
+        
+        if(root==null)
+        return -1;
+        
+        int k = root.data;
+        
+        int n = largestNode(root.left);
+        int n1 = largestNode(root.right);
+        
+        return Math.max(k,Math.max(n,n1));
+        
+    }
+    
+    public static int sumOfNodes(Node root){
+        
+        if(root==null)
+        return 0;
+        
+        return  root.data + sumOfNodes(root.right) + sumOfNodes(root.left);
+        
+    }
+    public static Node replaceNodeWithDepth(Node root,int d){
+        
+        if(root==null)
+        return root;
+        
+        root.data = d;
+        
+        d++;
+        
+        root.left = replaceNodeWithDepth(root.left,d);
+        root.right = replaceNodeWithDepth(root.right,d);
+        
+        return root;
+        
+    }
+    
+    public static boolean isNodePresent(Node root,int x){
+        
+        if(root==null)return false;
+        
+        if(root.data==x)return true;
+        
+     
+     
+        
+        return    (isNodePresent(root.left,x) ||    isNodePresent(root.right,x));
+    }
+}
+
+class Node{
+    
+    Node left;
+    int data;
+    Node right;
+    
+    public Node(Node left,int data,Node right){
+        this.left = left;
+        this.data = data;
+        this.right = right;
+    }
+    
+    public Node(int data){
+        this.data = data;
+    }
+    
+}
