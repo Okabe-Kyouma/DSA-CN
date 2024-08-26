@@ -8,10 +8,10 @@ class HelloWorld {
     static Scanner input;
     
     public static void main(String[] args) {
+
+        input = new Scanner(System.in);
     
         Node t= levelWiseInput();
-        
-        levelWisePrint(t);
         
         
     }
