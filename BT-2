@@ -1,0 +1,109 @@
+// Online Java Compiler
+// Use this editor to write, compile and run your Java code online
+import java.util.*;
+class HelloWorld {
+    
+    static Scanner input;
+      static int max = Integer.MIN_VALUE;
+    
+    
+    public static void main(String[] args) {
+       
+       input = new Scanner(System.in);
+       
+       Node root = buildTree();
+       
+       printTree(root);
+       
+       Pair p = minAndMax(root,new Pair(Integer.MAX_VALUE,Integer.MIN_VALUE));
+       
+       System.out.println("minAndMax " + p.min + " max: " + p.max);
+       
+       
+    }
+    
+    public static Pair minAndMax(Node root,Pair p){
+        
+        if(root==null)return new Pair(0,0);
+        
+         p.max = Math.max(p.max,root.data);
+         p.min = Math.min(p.min,root.data);
+         
+         
+         minAndMax(root.left,p);
+         minAndMax(root.right,p);
+         
+         return p;
+        
+    }
+    
+    public static Node buildTree(){
+        
+        int n = input.nextInt();
+        if(n==-1)return null;
+        
+        Node node = new Node(n);
+        
+        node.left = buildTree();
+        node.right = buildTree();
+        
+        return node;
+        
+    }
+    
+    public static void printTree(Node root){
+        
+        if(root==null)return;
+        
+        System.out.println(root.data);
+        
+        printTree(root.left);
+        printTree(root.right);
+        
+    }
+    
+  
+    public static int dia(Node root){
+        
+        if(root==null)return 0;
+        
+        int n1 = dia(root.left);
+        int n2 = dia(root.right);
+        
+        max = Math.max((n1+n2),max);
+         
+         return 1 + Math.max(n1,n2);
+        
+    }
+}
+
+class Node{
+    
+    Node left;
+    int data;
+    Node right;
+    
+    public Node(Node left,int data,Node right){
+        this.left = left;
+        this.data = data;
+        this.right = right;
+    }
+    
+    public Node(int data){
+        this.data = data;
+    }
+    
+}
+
+class Pair{
+    
+    int min;
+    int max;
+    
+    public Pair(){};
+    public Pair(int min,int max){
+        this.min = min;
+        this.max = max;
+    }
+    
+}
